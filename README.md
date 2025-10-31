@@ -89,6 +89,19 @@ The hooks will now run on every commit automatically!
 
 **Why it matters:** Encourages transparency about AI usage without being annoying.
 
+#### `check-version` (Optional)
+**Purpose:** Notifies developers when a newer version of rh-hooks-ai is available.
+
+**Behavior:**
+- Checks GitHub for latest release (non-blocking)
+- Caches result for 24 hours to avoid slowing commits
+- Shows friendly update message with `pre-commit autoupdate` command
+- Fails silently if network unavailable
+
+**Why it matters:** Keeps teams informed about updates and new features without being intrusive.
+
+**Note:** This hook is optional and commented out in baseline config. Uncomment to enable.
+
 ### Templates
 
 #### `templates/AGENTS.md.template`
@@ -196,12 +209,63 @@ pre-commit run --files AGENTS.md
 
 ## Contributing
 
-Contributions welcome! This is an early MVP focused on:
-- Simple, reliable hooks
-- Clear documentation
-- Good developer experience
+Contributions welcome! This project uses:
+- **Conventional Commits**: All commit messages must follow the [Conventional Commits](https://www.conventionalcommits.org/) format
+- **Automated Releases**: Versions are automatically determined from commit messages
+- **Semantic Versioning**: We follow [SemVer](https://semver.org/)
 
-Please open issues or PRs with suggestions for improvement.
+### Commit Message Format
+
+```
+<type>[optional scope]: <description>
+
+[optional body]
+
+[optional footer(s)]
+```
+
+**Types:**
+- `feat:` - New feature (minor version bump)
+- `fix:` - Bug fix (patch version bump)
+- `docs:` - Documentation changes
+- `chore:` - Maintenance tasks
+- `refactor:` - Code refactoring
+- `test:` - Test changes
+- `ci:` - CI/CD changes
+
+**Examples:**
+```
+feat: add version checking hook
+fix(hooks): correct regex pattern in validation
+docs: update README with versioning info
+feat!: breaking change to hook API
+```
+
+### Release Process
+
+Releases are automated via [release-please](https://github.com/googleapis/release-please):
+1. Commit changes using conventional commit format
+2. Push to main branch
+3. release-please creates/updates a release PR
+4. When PR is merged, a new version is tagged and released
+5. baseline.yaml is automatically updated with the new version
+
+### Development Setup
+
+```bash
+# Clone the repository
+git clone https://github.com/openshift-hyperfleet/rh-hooks-ai.git
+cd rh-hooks-ai
+
+# Install pre-commit
+pip install pre-commit
+
+# Install hooks (includes conventional commit enforcement)
+pre-commit install --hook-type commit-msg
+
+# Test your changes
+pre-commit run --all-files
+```
 
 ## License
 

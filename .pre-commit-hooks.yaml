@@ -25,3 +25,11 @@
   language: python
   pass_filenames: false
   always_run: true
+
+- id: check-version
+  name: Check for Updates
+  description: Checks if a newer version of rh-hooks-ai is available (non-blocking, cached for 24h)
+  entry: hooks/check_version.py
+  language: python
+  pass_filenames: false
+  always_run: true

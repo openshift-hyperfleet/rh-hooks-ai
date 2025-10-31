@@ -1,0 +1,42 @@
+name: Release Please
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: googleapis/release-please-action@v4
+        id: release
+        with:
+          release-type: simple
+          package-name: rh-hooks-ai
+
+      # Update baseline.yaml with new version tag after release is created
+      - name: Update baseline.yaml with release tag
+        if: ${{ steps.release.outputs.release_created }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Checkout the repository
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Get the new version tag
+          TAG_NAME="${{ steps.release.outputs.tag_name }}"
+
+          # Update baseline.yaml to use the new tag
+          # This sed command finds the rh-hooks-ai repo line and updates the rev: on the next line
+          sed -i "/repo: https:\/\/github.com\/openshift-hyperfleet\/rh-hooks-ai/,/rev:/ s/rev: .*/rev: ${TAG_NAME}  # Updated automatically by release workflow/" configs/baseline.yaml
+
+          # Commit and push the change
+          git add configs/baseline.yaml
+          git commit -m "chore: update baseline.yaml to use ${TAG_NAME}"
+          git push origin main

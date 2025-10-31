@@ -25,3 +25,4 @@ repos:
       - id: check-rh-precommit
       - id: validate-agents-md  # Requires AGENTS.md to exist - comment out if not using
       - id: ai-attribution-reminder
+      # - id: check-version  # Optional: Checks for updates once per 24h (non-blocking)
