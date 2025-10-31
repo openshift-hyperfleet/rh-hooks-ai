@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.2](https://github.com/openshift-hyperfleet/rh-hooks-ai/compare/v1.0.1...v1.0.2) (2025-10-31)
+
+
+### Bug Fixes
+
+* read user input from /dev/tty in bootstrap script ([72fde29](https://github.com/openshift-hyperfleet/rh-hooks-ai/commit/72fde297aae6ea85a868a86c01c493d487978a5f))
+* write AI attribution reminder to stderr ([10321cb](https://github.com/openshift-hyperfleet/rh-hooks-ai/commit/10321cbd19551df3f20f8d9091c10ff25ef5e005))
+
 ## [1.0.1](https://github.com/openshift-hyperfleet/rh-hooks-ai/compare/v1.0.0...v1.0.1) (2025-10-31)
 
 
