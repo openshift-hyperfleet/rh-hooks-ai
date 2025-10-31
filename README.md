@@ -4,6 +4,10 @@ Pre-commit hooks enforcing AI-readiness best practices for Red Hat development t
 
 ## Installation
 
+First, navigate to the repository that you want to configure with Red Hat security and AI-readiness practices.
+
+Then run the quick setup script:
+
 ```bash
 curl -sSL https://raw.githubusercontent.com/openshift-hyperfleet/rh-hooks-ai/main/bootstrap/quick-setup.sh | bash
 ```
@@ -25,7 +29,16 @@ Then run:
 ```bash
 pre-commit install
 pre-commit install --hook-type pre-push
+pre-commit run --all-files # Test
 ```
+
+**First-time setup note:** If this is your first time running `pre-commit run --all-files` with rh-pre-commit on this machine, the command may fail with an authentication error. If you see "Could not find pattern server auth token!", follow the instructions in the error message to authenticate:
+
+```bash
+python3 -m rh_gitleaks login
+```
+
+After logging in and copying the authentication token when prompted, re-run `pre-commit run --all-files` to complete the setup.
 
 ## Hooks
 
@@ -60,6 +73,12 @@ Configure commit template:
 ```bash
 git config commit.template .gitmessage
 ```
+
+## Important: What to Commit vs. Ignore
+
+**DO commit** `.pre-commit-config.yaml` to your repository - this is a repository-wide configuration that ensures all contributors run the same security and quality checks. It should never be added to `.gitignore`.
+
+**DO add to `.gitignore`:** `.gitmessage` - this is a personal workflow file that each developer can customize locally. The quick-setup script generates it automatically for each user.
 
 ## Configuration Examples
 

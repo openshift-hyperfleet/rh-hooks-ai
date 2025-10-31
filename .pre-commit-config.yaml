@@ -1,51 +1,29 @@
-# Pre-commit configuration for rh-ai-hooks repository itself
-# This enforces quality on commits TO this repo
+# Baseline pre-commit configuration for Red Hat AI-Ready repositories
+#
+# This config includes:
+# 1. Red Hat security/compliance hooks (rh-pre-commit)
+# 2. AI-readiness hooks from this repository
+#
+# To use this config:
+#   1. Copy this file to your repo root as .pre-commit-config.yaml
+#   2. Run: pre-commit install
+#   3. Run: pre-commit install --hook-type pre-push  (for AGENTS.md validation)
+#   4. Run: pre-commit run --all-files (to test)
+#
+# See: https://pre-commit.com/
 
 repos:
-  # Conventional commits enforcement
-  - repo: https://github.com/compilerla/conventional-pre-commit
-    rev: v4.3.0
+  # Red Hat security and compliance hooks
+  - repo: https://gitlab.cee.redhat.com/infosec-public/developer-workbench/tools
+    rev: rh-pre-commit-2.3.2  # Use specific tag (https://gitlab.cee.redhat.com/infosec-public/developer-workbench/tools/-/tags)
     hooks:
-      - id: conventional-pre-commit
-        stages: [commit-msg]
-        args: []  # Use default types: feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert
-
-  # Standard pre-commit hooks
-  - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v6.0.0
-    hooks:
-      - id: trailing-whitespace
-      - id: end-of-file-fixer
-      - id: check-yaml
-      - id: check-added-large-files
-      - id: check-merge-conflict
-      - id: mixed-line-ending
-
-  # Python code quality
-  - repo: https://github.com/psf/black
-    rev: 25.9.0
-    hooks:
-      - id: black
-        language_version: python3
-        files: ^hooks/.*\.py$
-
-  # Shellcheck for bash scripts
-  - repo: https://github.com/shellcheck-py/shellcheck-py
-    rev: v0.11.0.1
-    hooks:
-      - id: shellcheck
-        files: \.sh$
+      - id: rh-pre-commit
 
   # AI-readiness hooks
   - repo: https://github.com/openshift-hyperfleet/rh-hooks-ai
-    rev: v1.0.1  # Use specific commit SHA in production
+    rev: v1.0.3  # Updated automatically by release workflow
     hooks:
       - id: check-rh-precommit
-      - id: validate-agents-md  # Requires AGENTS.md to exist - comment out if not using
+      - id: validate-agents-md  # Runs on git push, requires AGENTS.md - comment out if not using
       - id: ai-attribution-reminder
-      - id: check-version
-
-  - repo: https://gitlab.cee.redhat.com/infosec-public/developer-workbench/tools
-    rev: rh-pre-commit-2.3.2
-    hooks:
-      - id: rh-pre-commit
+      # - id: check-version  # Optional: Checks for updates once per 24h (non-blocking)
