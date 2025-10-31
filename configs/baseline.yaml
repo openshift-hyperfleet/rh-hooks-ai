@@ -21,7 +21,7 @@ repos:
 
   # AI-readiness hooks
   - repo: https://github.com/openshift-hyperfleet/rh-hooks-ai
-    rev: v1.0.1  # Updated automatically by release workflow
+    rev: v1.0.2  # Updated automatically by release workflow
     hooks:
       - id: check-rh-precommit
       - id: validate-agents-md  # Runs on git push, requires AGENTS.md - comment out if not using
