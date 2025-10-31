@@ -6,7 +6,7 @@
   name: Check rh-pre-commit Configuration
   description: Ensures rh-pre-commit is installed and configured in the repository
   entry: hooks/check_rh_precommit.py
-  language: python
+  language: script
   pass_filenames: false
   always_run: true
 
@@ -14,7 +14,7 @@
   name: Validate AGENTS.md
   description: Requires AGENTS.md to exist and contain meaningful content
   entry: hooks/validate_agents_md.py
-  language: python
+  language: script
   pass_filenames: false
   always_run: true
 
@@ -22,7 +22,7 @@
   name: AI Attribution Reminder
   description: One-time reminder about AI attribution in commit messages
   entry: hooks/ai_attribution_reminder.py
-  language: python
+  language: script
   pass_filenames: false
   always_run: true
 
@@ -30,6 +30,6 @@
   name: Check for Updates
   description: Checks if a newer version of rh-hooks-ai is available (non-blocking, cached for 24h)
   entry: hooks/check_version.py
-  language: python
+  language: script
   pass_filenames: false
   always_run: true
