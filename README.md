@@ -40,6 +40,7 @@ EOF
 
 # Install the hooks
 pre-commit install
+pre-commit install --hook-type pre-push  # For AGENTS.md validation
 ```
 
 ### 2. Test the Hooks
@@ -69,15 +70,16 @@ The hooks will now run on every commit automatically!
 **Purpose:** Requires AGENTS.md file and validates its quality.
 
 **Behavior:**
-- **Blocks commit** if `AGENTS.md` doesn't exist
-- **Blocks commit** if file is empty
-- **Blocks commit** if file is too short (<100 chars)
+- Runs on `git push` (not every commit - less intrusive)
+- **Blocks push** if `AGENTS.md` doesn't exist
+- **Blocks push** if file is empty
+- **Blocks push** if file is too short (<100 chars)
 
 **Why it matters:** Ensures repositories have meaningful AI context for coding assistants. If a team adds this hook, they're committing to maintaining quality AI context.
 
 **Standard:** Follows [agentsmd.net](https://agentsmd.net/)
 
-**Note:** This hook enforces AGENTS.md presence - only add it if your team requires this file.
+**Note:** This hook enforces AGENTS.md presence - only add it if your team requires this file. Runs on push to avoid annoying developers during local commits.
 
 #### `ai-attribution-reminder`
 **Purpose:** Reminds developers to attribute AI-assisted code.
