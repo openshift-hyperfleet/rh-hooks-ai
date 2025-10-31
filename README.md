@@ -2,8 +2,16 @@
 
 Pre-commit hooks enforcing AI-readiness best practices for Red Hat development teams.
 
+Currently, the hooks available from this repo have minimal scope. This serves to drive
+early adoption to solicit feedback and identify additional practices that can be codified, without
+significant adopter friction.
+
+[Issues](https://github.com/openshift-hyperfleet/rh-hooks-ai/issues/new) and PRs that add hooks
+for enforcing AI-enabled software development practices are welcomed!
+
 ## Installation
 
+Run from the root of a git repo to automatically install all available `rh-hooks-ai` hooks (except version check):
 ```bash
 curl -sSL https://raw.githubusercontent.com/openshift-hyperfleet/rh-hooks-ai/main/bootstrap/quick-setup.sh | bash
 ```
