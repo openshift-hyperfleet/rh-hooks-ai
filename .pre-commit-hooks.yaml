@@ -17,6 +17,7 @@
   language: script
   pass_filenames: false
   always_run: true
+  stages: [push]
 
 - id: ai-attribution-reminder
   name: AI Attribution Reminder

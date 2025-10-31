@@ -92,7 +92,8 @@ fi
 echo ""
 echo "Installing pre-commit hooks..."
 pre-commit install
-print_status "Pre-commit hooks installed"
+pre-commit install --hook-type pre-push
+print_status "Pre-commit and pre-push hooks installed"
 
 # Set up commit message template (local to this repo)
 if [ -f ".gitmessage" ]; then

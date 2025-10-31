@@ -7,7 +7,8 @@
 # To use this config:
 #   1. Copy this file to your repo root as .pre-commit-config.yaml
 #   2. Run: pre-commit install
-#   3. Run: pre-commit run --all-files (to test)
+#   3. Run: pre-commit install --hook-type pre-push  (for AGENTS.md validation)
+#   4. Run: pre-commit run --all-files (to test)
 #
 # See: https://pre-commit.com/
 
@@ -23,6 +24,6 @@ repos:
     rev: main  # Use specific commit SHA in production
     hooks:
       - id: check-rh-precommit
-      - id: validate-agents-md  # Requires AGENTS.md to exist - comment out if not using
+      - id: validate-agents-md  # Runs on git push, requires AGENTS.md - comment out if not using
       - id: ai-attribution-reminder
       # - id: check-version  # Optional: Checks for updates once per 24h (non-blocking)
