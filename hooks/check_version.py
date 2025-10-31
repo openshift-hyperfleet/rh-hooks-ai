@@ -7,6 +7,7 @@ slowing down commits with network calls.
 """
 
 import json
+import re
 import sys
 import time
 import urllib.request
@@ -18,7 +19,30 @@ GITHUB_API_URL = (
 )
 CACHE_FILE = Path(".git/.rh-hooks-version-check")
 CACHE_DURATION = 24 * 60 * 60  # 24 hours in seconds
-CURRENT_VERSION = "main"  # Will be replaced by actual version in pre-commit config
+
+
+def get_current_version():
+    """Read the current version from .pre-commit-config.yaml."""
+    config_file = Path(".pre-commit-config.yaml")
+
+    if not config_file.exists():
+        return "unknown"
+
+    try:
+        content = config_file.read_text()
+
+        # Look for rh-hooks-ai repo and get its rev
+        # Pattern: repo: https://github.com/openshift-hyperfleet/rh-hooks-ai
+        # followed by: rev: <version>
+        pattern = r"repo:\s*https://github\.com/openshift-hyperfleet/rh-hooks-ai.*?rev:\s*([^\s#]+)"
+        match = re.search(pattern, content, re.DOTALL)
+
+        if match:
+            return match.group(1)
+
+        return "unknown"
+    except Exception:
+        return "unknown"
 
 
 def get_cached_result():
@@ -84,11 +108,14 @@ def compare_versions(current, latest):
 
 def main():
     """Main entry point for the hook."""
+    # Get current version from .pre-commit-config.yaml
+    current_version = get_current_version()
+
     # Check cache first
     cached = get_cached_result()
     if cached is not None:
         if cached.get("update_available"):
-            show_update_message(cached.get("latest_version"))
+            show_update_message(cached.get("latest_version"), current_version)
         # Always succeed (non-blocking)
         sys.exit(0)
 
@@ -101,7 +128,7 @@ def main():
         sys.exit(0)
 
     # Compare versions
-    update_available = compare_versions(CURRENT_VERSION, latest_version)
+    update_available = compare_versions(current_version, latest_version)
 
     # Cache the result
     cache_result(
@@ -110,17 +137,17 @@ def main():
 
     # Show message if update available
     if update_available:
-        show_update_message(latest_version)
+        show_update_message(latest_version, current_version)
 
     # Always succeed (non-blocking)
     sys.exit(0)
 
 
-def show_update_message(latest_version):
+def show_update_message(latest_version, current_version):
     """Show a non-blocking message about available updates."""
     print()
     print(f"📦 A newer version of rh-hooks-ai is available: {latest_version}")
-    print(f"   Current: {CURRENT_VERSION}")
+    print(f"   Current: {current_version}")
     print()
     print("   To update, run:")
     print("     pre-commit autoupdate")
