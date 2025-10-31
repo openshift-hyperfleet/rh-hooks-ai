@@ -2,6 +2,13 @@
 
 Pre-commit hooks enforcing AI-readiness best practices for Red Hat development teams.
 
+Currently, the hooks available from this repo have minimal scope. This serves to drive
+early adoption to solicit feedback and identify additional practices that can be codified, without
+significant adopter friction.
+
+[Issues](https://github.com/openshift-hyperfleet/rh-hooks-ai/issues/new) and PRs that add hooks
+for enforcing AI-enabled software development practices are welcomed!
+
 ## Installation
 
 First, navigate to the repository that you want to configure with Red Hat security and AI-readiness practices.
