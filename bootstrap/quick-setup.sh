@@ -56,7 +56,7 @@ if ! command -v pre-commit &> /dev/null; then
     echo "  brew install pre-commit  (macOS)"
     echo "  dnf install pre-commit   (Fedora/RHEL)"
     echo ""
-    read -p "Would you like to install via pip now? [y/N] " -n 1 -r
+    read -p "Would you like to install via pip now? [y/N] " -n 1 -r </dev/tty
     echo ""
     if [[ $REPLY =~ ^[Yy]$ ]]; then
         pip install --user pre-commit
@@ -75,7 +75,7 @@ GITHUB_RAW="https://raw.githubusercontent.com/openshift-hyperfleet/rh-hooks-ai/m
 # Copy baseline config
 if [ -f ".pre-commit-config.yaml" ]; then
     print_warning ".pre-commit-config.yaml already exists"
-    read -p "Overwrite with baseline config? [y/N] " -n 1 -r
+    read -p "Overwrite with baseline config? [y/N] " -n 1 -r </dev/tty
     echo ""
     if [[ $REPLY =~ ^[Yy]$ ]]; then
         curl -fsSL "$GITHUB_RAW/configs/baseline.yaml" -o .pre-commit-config.yaml
@@ -109,7 +109,7 @@ echo ""
 if [ -f "AGENTS.md" ]; then
     print_status "AGENTS.md already exists"
 else
-    read -p "Would you like to add an AGENTS.md template? [y/N] " -n 1 -r
+    read -p "Would you like to add an AGENTS.md template? [y/N] " -n 1 -r </dev/tty
     echo ""
     if [[ $REPLY =~ ^[Yy]$ ]]; then
         curl -fsSL "$GITHUB_RAW/templates/AGENTS.md.template" -o AGENTS.md
