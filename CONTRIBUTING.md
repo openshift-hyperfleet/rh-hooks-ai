@@ -87,10 +87,3 @@ Releases are automated via [release-please](https://github.com/googleapis/releas
 3. release-please creates/updates a release PR
 4. When PR is merged, a new version is tagged and released
 5. baseline.yaml is automatically updated with the new version
-
-**Note:** Use merge commits (not squash) when merging release-please PRs to preserve version tags.
-
-## Maintainers
-
-- Red Hat AI Transformation Team
-- OpenShift Hyperfleet Team

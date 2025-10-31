@@ -35,7 +35,6 @@ Enforces [rh-pre-commit](https://gitlab.cee.redhat.com/infosec-public/developer-
 ### `validate-agents-md` (blocking, pre-push only)
 Validates AGENTS.md file exists in git and contains meaningful content (>100 chars). Runs on `git push` to avoid blocking local commits. Based on [agentsmd.net](https://agentsmd.net/) standard.
 
-**Note:** Only enable this hook if your team uses AGENTS.md. Remove from config otherwise.
 
 ### `ai-attribution-reminder` (non-blocking)
 One-time reminder to use `Assisted-by:` or `Generated-by:` trailers in commit messages for AI-assisted code.
@@ -68,7 +67,7 @@ git config commit.template .gitmessage
 ```yaml
 repos:
   - repo: https://github.com/openshift-hyperfleet/rh-hooks-ai
-    rev: v1.0.0
+    rev: v1.0.0 # Replace with latest tag
     hooks:
       - id: check-rh-precommit
 ```
@@ -77,27 +76,13 @@ repos:
 ```yaml
 repos:
   - repo: https://github.com/openshift-hyperfleet/rh-hooks-ai
-    rev: v1.0.0
+    rev: v1.0.0 # Replace with latest tag
     hooks:
       - id: check-rh-precommit
       - id: validate-agents-md
       - id: ai-attribution-reminder
       - id: check-version
 ```
-
-## FAQ
-
-**Q: Do I need AGENTS.md?**
-A: No. Only enable `validate-agents-md` hook if your team uses it.
-
-**Q: How do I update?**
-A: `pre-commit autoupdate`
-
-**Q: Can I disable the AI attribution reminder?**
-A: Yes. Remove `ai-attribution-reminder` from your config.
-
-**Q: What if rh-pre-commit isn't available in my environment?**
-A: The `check-rh-precommit` hook only requires it in your `.pre-commit-config.yaml`. Global installation is recommended but not required.
 
 ## Resources
 
@@ -109,7 +94,3 @@ A: The `check-rh-precommit` hook only requires it in your `.pre-commit-config.ya
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for development setup, testing, and release process.
-
-## License
-
-[TBD - Add Red Hat appropriate license]
