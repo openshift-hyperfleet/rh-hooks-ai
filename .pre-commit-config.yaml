@@ -38,7 +38,7 @@ repos:
 
   # AI-readiness hooks
   - repo: https://github.com/openshift-hyperfleet/rh-hooks-ai
-    rev: v1.0.0  # Use specific commit SHA in production
+    rev: v1.0.1  # Use specific commit SHA in production
     hooks:
       - id: check-rh-precommit
       - id: validate-agents-md  # Requires AGENTS.md to exist - comment out if not using
