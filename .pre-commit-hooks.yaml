@@ -1,0 +1,27 @@
+---
+# Red Hat AI-Ready Hooks for pre-commit
+# https://pre-commit.com/
+
+- id: check-rh-precommit
+  name: Check rh-pre-commit Configuration
+  description: Ensures rh-pre-commit is installed and configured in the repository
+  entry: hooks/check_rh_precommit.py
+  language: python
+  pass_filenames: false
+  always_run: true
+
+- id: validate-agents-md
+  name: Validate AGENTS.md
+  description: Requires AGENTS.md to exist and contain meaningful content
+  entry: hooks/validate_agents_md.py
+  language: python
+  pass_filenames: false
+  always_run: true
+
+- id: ai-attribution-reminder
+  name: AI Attribution Reminder
+  description: One-time reminder about AI attribution in commit messages
+  entry: hooks/ai_attribution_reminder.py
+  language: python
+  pass_filenames: false
+  always_run: true

@@ -1,0 +1,102 @@
+# Project Context for AI Coding Assistants
+
+This file provides context and guidelines for AI coding assistants working on this project.
+It follows the AGENTS.md standard: https://agentsmd.net/
+
+## Project Overview
+
+**Project Name:** [Your Project Name]
+
+**Description:** [Brief description of what this project does]
+
+**Tech Stack:**
+- Language: [e.g., Python 3.11, TypeScript, Go]
+- Framework: [e.g., Django, React, Kubernetes]
+- Key Dependencies: [List major libraries/tools]
+
+## Architecture
+
+[Describe the high-level architecture of the project]
+
+**Key Components:**
+- [Component 1]: [Brief description]
+- [Component 2]: [Brief description]
+
+**Directory Structure:**
+```
+src/
+  core/       - Core business logic
+  api/        - API endpoints
+  tests/      - Test suites
+docs/         - Documentation
+```
+
+## Coding Guidelines
+
+### Style and Conventions
+
+- Follow [PEP 8 / Airbnb Style Guide / etc.]
+- Use [4 spaces / 2 spaces] for indentation
+- Maximum line length: [80 / 120] characters
+- Prefer meaningful variable names over abbreviations
+
+### Best Practices
+
+- Write tests for all new features
+- Keep functions small and focused (single responsibility)
+- Add docstrings/comments for complex logic, not obvious code
+- Avoid placeholder comments like "next step" or "do the thing"
+- When catching exceptions, use specific types, not broad catch-all
+- Error messages should start with "Failed to ..."
+
+### AI-Specific Guidelines
+
+**Stay Focused:**
+- Only modify code directly related to the task
+- Avoid "drive-by" improvements or refactoring unrelated code
+- If you notice needed changes outside the task scope, note them separately
+
+**Code Quality:**
+- Don't repeat yourself (DRY principle)
+- Extract boilerplate into reusable functions
+- Prefer clear, simple solutions over clever, complex ones
+
+**Testing:**
+- New features require tests
+- Tests must fail before implementation (TDD)
+- Extract test boilerplate into helper functions
+
+## Common Tasks
+
+### Adding a New Feature
+1. Review existing similar features for patterns
+2. Add tests first (should fail)
+3. Implement feature
+4. Ensure all tests pass
+5. Update documentation
+
+### Fixing a Bug
+1. Write a test that reproduces the bug
+2. Fix the bug
+3. Verify the test passes
+4. Check for similar bugs elsewhere
+
+## Important Constraints
+
+- **Security:** Never commit secrets, API keys, or credentials
+- **Licensing:** Only use dependencies with compatible licenses
+- **Performance:** [Any performance requirements]
+- **Compatibility:** [Any version/platform requirements]
+
+## Resources
+
+- **Contributing Guide:** [Link to CONTRIBUTING.md]
+- **API Documentation:** [Link]
+- **Architecture Docs:** [Link]
+- **Team Chat:** [Slack/Mattermost channel]
+
+## Notes for AI Assistants
+
+- This project uses [specific patterns/conventions unique to this codebase]
+- Be cautious about [known issues or edge cases]
+- When in doubt, prefer [principle 1] over [principle 2]
