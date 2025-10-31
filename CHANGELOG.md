@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.3](https://github.com/openshift-hyperfleet/rh-hooks-ai/compare/v1.0.2...v1.0.3) (2025-10-31)
+
+
+### Bug Fixes
+
+* enable verbose output for AI attribution reminder ([1a45b7a](https://github.com/openshift-hyperfleet/rh-hooks-ai/commit/1a45b7af544b0872f85f84ce8e77611e630c4af5))
+* enable verbose output for version check hook ([b7495cf](https://github.com/openshift-hyperfleet/rh-hooks-ai/commit/b7495cf9ce73cac5bcf66d38a1e1610e28526aef))
+* use pre-push instead of deprecated push stage name ([f4248e3](https://github.com/openshift-hyperfleet/rh-hooks-ai/commit/f4248e3029923592607252d3b4b775337ab18e72))
+
 ## [1.0.2](https://github.com/openshift-hyperfleet/rh-hooks-ai/compare/v1.0.1...v1.0.2) (2025-10-31)
 
 
