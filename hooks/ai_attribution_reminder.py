@@ -22,21 +22,30 @@ def show_reminder():
         # Already shown, skip
         return True
 
-    # Show the one-time reminder
-    print()
-    print("💡 Reminder: For AI-assisted commits, consider adding a trailer:")
-    print()
-    print("    Assisted-by: Claude Code")
-    print("    Generated-by: GitHub Copilot")
-    print()
-    print("A commit template has been configured in this repo to remind you.")
-    print("Use 'git commit' (without -m) to see it in your editor.")
-    print()
-    print("Learn more:")
-    print("  https://source.redhat.com/projects_and_programs/ai/wiki/code_assistants_guidelines_for_responsible_use_of_ai_code_assistants")
-    print()
-    print("(This reminder will only be shown once per repository)")
-    print()
+    # Show the one-time reminder (write to stderr so pre-commit displays it)
+    print(file=sys.stderr)
+    print(
+        "💡 Reminder: For AI-assisted commits, consider adding a trailer:",
+        file=sys.stderr,
+    )
+    print(file=sys.stderr)
+    print("    Assisted-by: Claude Code", file=sys.stderr)
+    print("    Generated-by: GitHub Copilot", file=sys.stderr)
+    print(file=sys.stderr)
+    print(
+        "A commit template has been configured in this repo to remind you.",
+        file=sys.stderr,
+    )
+    print("Use 'git commit' (without -m) to see it in your editor.", file=sys.stderr)
+    print(file=sys.stderr)
+    print("Learn more:", file=sys.stderr)
+    print(
+        "  https://source.redhat.com/projects_and_programs/ai/wiki/code_assistants_guidelines_for_responsible_use_of_ai_code_assistants",
+        file=sys.stderr,
+    )
+    print(file=sys.stderr)
+    print("(This reminder will only be shown once per repository)", file=sys.stderr)
+    print(file=sys.stderr)
 
     # Create marker file so we don't show again
     try:
