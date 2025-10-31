@@ -17,7 +17,6 @@ This repository provides [pre-commit](https://pre-commit.com/) hooks that enforc
 From your repository root:
 
 ```bash
-# Clone this repo or download the bootstrap script
 curl -sSL https://raw.githubusercontent.com/openshift-hyperfleet/rh-hooks-ai/main/bootstrap/quick-setup.sh | bash
 ```
 
