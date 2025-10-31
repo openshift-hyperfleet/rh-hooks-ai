@@ -8,6 +8,7 @@ that it contains meaningful content (not empty, not just a placeholder).
 Based on: https://agentsmd.net/
 """
 
+import subprocess
 import sys
 from pathlib import Path
 
@@ -15,22 +16,41 @@ from pathlib import Path
 MIN_LENGTH = 100  # Minimum character count to avoid placeholder files
 
 
+def is_file_committed(filename):
+    """Check if a file is tracked and committed in git."""
+    try:
+        # Check if file is in the git index (staged or committed)
+        result = subprocess.run(
+            ["git", "ls-files", "--error-unmatch", filename],
+            capture_output=True,
+            text=True,
+            timeout=5,
+        )
+        return result.returncode == 0
+    except Exception:
+        # If git command fails, assume file is not committed
+        return False
+
+
 def validate_agents_md():
     """Validate AGENTS.md file exists and has quality content."""
     agents_file = Path("AGENTS.md")
 
-    # Check if file exists
-    if not agents_file.exists():
-        print("❌ ERROR: AGENTS.md not found in repository root")
+    # Check if file is committed to git (not just on disk)
+    if not is_file_committed("AGENTS.md"):
+        print("❌ ERROR: AGENTS.md is not committed to git")
         print()
         print("This repository requires an AGENTS.md file to provide context")
         print("for AI coding assistants and developers.")
         print()
         print("To fix this:")
-        print("  1. Create AGENTS.md in your repository root")
+        print("  1. Create AGENTS.md in your repository root (if it doesn't exist)")
         print("  2. Add project context, architecture, and coding guidelines")
+        print("  3. Commit the file: git add AGENTS.md && git commit")
         print()
-        print("See template: https://github.com/openshift-hyperfleet/rh-hooks-ai/blob/main/templates/AGENTS.md.template")
+        print(
+            "See template: https://github.com/openshift-hyperfleet/rh-hooks-ai/blob/main/templates/AGENTS.md.template"
+        )
         print("Standard: https://agentsmd.net/")
         return False
 
