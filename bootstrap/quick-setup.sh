@@ -134,3 +134,8 @@ echo "  - rh-pre-commit: https://gitlab.cee.redhat.com/infosec-public/developer-
 echo "  - AGENTS.md standard: https://agentsmd.net/"
 echo "  - AI Guidelines: https://source.redhat.com/projects_and_programs/ai/wiki/code_assistants_guidelines_for_responsible_use_of_ai_code_assistants"
 echo ""
+echo -e "${YELLOW}⚠ First-time authentication note:${NC}"
+echo "  If 'pre-commit run --all-files' reports an authentication error:"
+echo "  Copy the Python path from the error message and run the login command"
+echo "  Token is personal - each team member needs to authenticate separately"
+echo ""
