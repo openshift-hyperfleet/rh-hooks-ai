@@ -39,11 +39,17 @@ pre-commit install --hook-type pre-push
 pre-commit run --all-files # Test
 ```
 
-**First-time setup note:** If this is your first time running `pre-commit run --all-files` with rh-pre-commit on this machine, the command may fail with an authentication error. If you see "Could not find pattern server auth token!", follow the instructions in the error message to authenticate:
+**First-time setup note:** If this is your first time running `pre-commit run --all-files` with rh-pre-commit on this machine, the command may fail with an authentication error. If you see "Could not find pattern server auth token!":
 
+**Important:** The error message will display the correct Python path to use, similar to:
 ```bash
-python3 -m rh_gitleaks login
+# Example (your path will differ):
+/Users/xxx/.cache/pre-commit/repodw86rolm/venv/bin/python3 -m rh_gitleaks login
 ```
+
+**Copy the complete path from the error message** and run that command to authenticate.
+
+**About the token:** The authentication token is a **personal credential** tied to your Red Hat account. Do not share it with teammates or commit it to the repository.
 
 After logging in and copying the authentication token when prompted, re-run `pre-commit run --all-files` to complete the setup.
 
@@ -116,6 +122,51 @@ repos:
 - [rh-pre-commit](https://gitlab.cee.redhat.com/infosec-public/developer-workbench/tools/-/tree/main/rh-pre-commit)
 - [AGENTS.md Standard](https://agentsmd.net/)
 - [pre-commit Framework](https://pre-commit.com/)
+
+## Troubleshooting
+
+### Authentication Issues
+
+**"No module named rh_gitleaks" error?**
+- Do NOT use system Python (`python3 -m rh_gitleaks`)
+- Copy the full Python path from the error message shown by `pre-commit run --all-files`
+
+**Quick find command** (if error message is unclear):
+```bash
+# Find rh-gitleaks executable (works on all platforms)
+rh_gitleaks=$(find ~/.cache/pre-commit -name "rh-gitleaks" -type f 2>/dev/null | head -1)
+
+# Derive Python path from rh-gitleaks
+python_path="$(dirname "$rh_gitleaks")/python"
+
+# Use it to login
+"$python_path" -m rh_gitleaks login
+```
+
+**Token storage location:** (created automatically after login)
+
+To check if authenticated:
+```bash
+find ~/.config -name "auth*" -path "*rh*gitleaks*" -type f 2>/dev/null
+```
+If this returns a file path, you're authenticated.
+
+**Token security:**
+- Token is a personal credential tied to your Red Hat account
+- Do not share with teammates
+- Do not commit to repository
+- Each team member needs their own token
+
+### Other Common Issues
+
+**AGENTS.md validation fails?**
+- If not using AGENTS.md, comment out `validate-agents-md` in `.pre-commit-config.yaml`
+- File must be tracked by git and contain >100 characters
+
+**Need help?**
+- Review the complete error message carefully
+- Submit an [Issue](https://github.com/openshift-hyperfleet/rh-hooks-ai/issues)
+- Include error message and output of `pre-commit --version`
 
 ## Contributing
 
