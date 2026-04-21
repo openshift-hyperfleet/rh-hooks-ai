@@ -16,32 +16,51 @@ RH_PRECOMMIT_URL = "https://gitlab.cee.redhat.com/infosec-public/developer-workb
 
 
 def check_local_config():
-    """Check if .pre-commit-config.yaml exists and contains rh-pre-commit."""
-    config_file = Path(".pre-commit-config.yaml")
+    """Check if a pre-commit config exists and contains rh-pre-commit."""
+    yaml_config = Path(".pre-commit-config.yaml")
+    toml_config = Path("prek.toml")
 
-    if not config_file.exists():
-        print("❌ ERROR: .pre-commit-config.yaml not found in repository root")
+    if yaml_config.exists():
+        config_file = yaml_config
+    elif toml_config.exists():
+        config_file = toml_config
+    else:
+        print("❌ ERROR: No pre-commit configuration found in repository root")
         print()
-        print("This repository requires pre-commit hooks to be configured.")
-        print("Please set up pre-commit with rh-pre-commit included.")
-        print()
-        print(f"See: {RH_PRECOMMIT_URL}")
+        print("This repository requires a pre-commit configuration file.")
+        print("Please create one of:")
+        print("  - .pre-commit-config.yaml (for pre-commit)")
+        print("  - prek.toml (for prek)")
         return False
 
     content = config_file.read_text()
 
-    # Check if rh-pre-commit is referenced
     if "rh-pre-commit" not in content:
-        print("❌ ERROR: .pre-commit-config.yaml does not include rh-pre-commit")
+        print(f"❌ ERROR: {config_file} does not include rh-pre-commit")
         print()
-        print("Red Hat repositories should include rh-pre-commit hooks for security/compliance.")
+        print(
+            "Red Hat repositories should include rh-pre-commit hooks for security/compliance."
+        )
         print()
-        print("Add this to your .pre-commit-config.yaml:")
-        print("  repos:")
-        print("    - repo: https://gitlab.cee.redhat.com/infosec-public/developer-workbench/tools")
-        print("      rev: rh-pre-commit-2.3.2")
-        print("      hooks:")
-        print("        - id: rh-pre-commit")
+        if config_file == yaml_config:
+            print("Add this to your .pre-commit-config.yaml:")
+            print("  repos:")
+            print(
+                "    - repo: https://gitlab.cee.redhat.com/infosec-public/developer-workbench/tools"
+            )
+            print("      rev: rh-pre-commit-2.3.2")
+            print("      hooks:")
+            print("        - id: rh-pre-commit")
+        else:
+            print("Add this to your prek.toml:")
+            print("  [[repos]]")
+            print(
+                '  repo = "https://gitlab.cee.redhat.com/infosec-public/developer-workbench/tools"'
+            )
+            print('  rev = "rh-pre-commit-2.3.2"')
+            print("  hooks = [")
+            print('    { id = "rh-pre-commit" }')
+            print("  ]")
         print()
         print(f"Learn more: {RH_PRECOMMIT_URL}")
         return False
@@ -54,10 +73,7 @@ def check_global_config():
     try:
         # Check if pre-commit is installed
         result = subprocess.run(
-            ["pre-commit", "--version"],
-            capture_output=True,
-            text=True,
-            timeout=5
+            ["pre-commit", "--version"], capture_output=True, text=True, timeout=5
         )
 
         if result.returncode != 0:
@@ -68,7 +84,7 @@ def check_global_config():
             ["git", "config", "--global", "init.templateDir"],
             capture_output=True,
             text=True,
-            timeout=5
+            timeout=5,
         )
 
         template_dir = result.stdout.strip()
@@ -77,7 +93,9 @@ def check_global_config():
             print()
             print("⚠️  WARNING: rh-pre-commit does not appear to be installed globally")
             print()
-            print("For system-wide security, consider installing rh-pre-commit globally")
+            print(
+                "For system-wide security, consider installing rh-pre-commit globally"
+            )
             print("so all new repositories automatically get these hooks.")
             print()
             print(f"Installation instructions: {RH_PRECOMMIT_URL}")
