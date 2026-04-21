@@ -71,15 +71,6 @@ def check_local_config():
 def check_global_config():
     """Check if rh-pre-commit is installed globally (warning only)."""
     try:
-        # Check if pre-commit is installed
-        result = subprocess.run(
-            ["pre-commit", "--version"], capture_output=True, text=True, timeout=5
-        )
-
-        if result.returncode != 0:
-            return  # pre-commit not installed, skip global check
-
-        # Check global git config for pre-commit template
         result = subprocess.run(
             ["git", "config", "--global", "init.templateDir"],
             capture_output=True,
@@ -104,7 +95,6 @@ def check_global_config():
             print()
 
     except (subprocess.TimeoutExpired, FileNotFoundError, Exception):
-        # If we can't check, don't show warnings
         pass
 
 
