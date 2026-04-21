@@ -19,8 +19,9 @@ Then run the quick setup script:
 curl -sSL https://raw.githubusercontent.com/openshift-hyperfleet/rh-hooks-ai/main/bootstrap/quick-setup.sh | bash
 ```
 
-Or manually add to `.pre-commit-config.yaml`:
+Or manually add to your configuration file:
 
+**`.pre-commit-config.yaml`** (for [pre-commit](https://pre-commit.com/)):
 ```yaml
 repos:
   - repo: https://github.com/openshift-hyperfleet/rh-hooks-ai
@@ -32,11 +33,30 @@ repos:
       # - id: check-version  # Optional: Enable for update notifications
 ```
 
-Then run:
+**`prek.toml`** (for [prek](https://prek.dev/)):
+```toml
+[[repos]]
+repo = "https://github.com/openshift-hyperfleet/rh-hooks-ai"
+rev = "v1.0.0"  # Use latest release
+hooks = [
+  { id = "check-rh-precommit" },
+  { id = "validate-agents-md" },         # Optional: Remove if not using AGENTS.md
+  { id = "ai-attribution-reminder" },
+  # { id = "check-version" },            # Optional: Enable for update notifications
+]
+```
+
+Then install the hooks:
 ```bash
+# pre-commit
 pre-commit install
 pre-commit install --hook-type pre-push
 pre-commit run --all-files # Test
+
+# Or with prek
+prek install
+prek install --hook-type pre-push
+prek run --all-files # Test
 ```
 
 **First-time setup note:** If this is your first time running `pre-commit run --all-files` with rh-pre-commit on this machine, the command may fail with an authentication error. If you see "Could not find pattern server auth token!":
@@ -56,7 +76,7 @@ After logging in and copying the authentication token when prompted, re-run `pre
 ## Hooks
 
 ### `check-rh-precommit` (blocking)
-Enforces [rh-pre-commit](https://gitlab.cee.redhat.com/infosec-public/developer-workbench/tools/-/tree/main/rh-pre-commit) configuration in `.pre-commit-config.yaml`. Blocks commits if missing.
+Enforces [rh-pre-commit](https://gitlab.cee.redhat.com/infosec-public/developer-workbench/tools/-/tree/main/rh-pre-commit) configuration in `.pre-commit-config.yaml` or `prek.toml`. Blocks commits if missing.
 
 ### `validate-agents-md` (blocking, pre-push only)
 Validates AGENTS.md file exists in git and contains meaningful content (>100 chars). Runs on `git push` to avoid blocking local commits. Based on [agentsmd.net](https://agentsmd.net/) standard.
@@ -89,13 +109,15 @@ git config commit.template .gitmessage
 
 ## Important: What to Commit vs. Ignore
 
-**DO commit** `.pre-commit-config.yaml` to your repository - this is a repository-wide configuration that ensures all contributors run the same security and quality checks. It should never be added to `.gitignore`.
+**DO commit** `.pre-commit-config.yaml` (or `prek.toml`) to your repository - this is a repository-wide configuration that ensures all contributors run the same security and quality checks. It should never be added to `.gitignore`.
 
 **DO add to `.gitignore`:** `.gitmessage` - this is a personal workflow file that each developer can customize locally. The quick-setup script generates it automatically for each user.
 
 ## Configuration Examples
 
 **Minimal setup (security enforcement only):**
+
+`.pre-commit-config.yaml`:
 ```yaml
 repos:
   - repo: https://github.com/openshift-hyperfleet/rh-hooks-ai
@@ -104,7 +126,19 @@ repos:
       - id: check-rh-precommit
 ```
 
+`prek.toml`:
+```toml
+[[repos]]
+repo = "https://github.com/openshift-hyperfleet/rh-hooks-ai"
+rev = "v1.0.0"  # Replace with latest tag
+hooks = [
+  { id = "check-rh-precommit" },
+]
+```
+
 **Full AI-ready setup:**
+
+`.pre-commit-config.yaml`:
 ```yaml
 repos:
   - repo: https://github.com/openshift-hyperfleet/rh-hooks-ai
@@ -116,12 +150,26 @@ repos:
       - id: check-version
 ```
 
+`prek.toml`:
+```toml
+[[repos]]
+repo = "https://github.com/openshift-hyperfleet/rh-hooks-ai"
+rev = "v1.0.0"  # Replace with latest tag
+hooks = [
+  { id = "check-rh-precommit" },
+  { id = "validate-agents-md" },
+  { id = "ai-attribution-reminder" },
+  { id = "check-version" },
+]
+```
+
 ## Resources
 
 - [Red Hat AI Code Assistants Guidelines](https://source.redhat.com/projects_and_programs/ai/wiki/code_assistants_guidelines_for_responsible_use_of_ai_code_assistants)
 - [rh-pre-commit](https://gitlab.cee.redhat.com/infosec-public/developer-workbench/tools/-/tree/main/rh-pre-commit)
 - [AGENTS.md Standard](https://agentsmd.net/)
 - [pre-commit Framework](https://pre-commit.com/)
+- [prek](https://prek.dev/) - Rust-based alternative to pre-commit
 
 ## Troubleshooting
 
@@ -160,7 +208,7 @@ If this returns a file path, you're authenticated.
 ### Other Common Issues
 
 **AGENTS.md validation fails?**
-- If not using AGENTS.md, comment out `validate-agents-md` in `.pre-commit-config.yaml`
+- If not using AGENTS.md, comment out `validate-agents-md` in your config file
 - File must be tracked by git and contain >100 characters
 
 **Need help?**
