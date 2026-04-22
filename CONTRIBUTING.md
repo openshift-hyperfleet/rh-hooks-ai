@@ -7,7 +7,7 @@
 git clone https://github.com/openshift-hyperfleet/rh-hooks-ai.git
 cd rh-hooks-ai
 
-# Install pre-commit
+# Install pre-commit (or prek: https://prek.j178.dev/)
 pip install pre-commit
 
 # Install hooks (includes conventional commit enforcement)
